@@ -15,7 +15,7 @@ var tempo = 132;  // set the tempo
 
 // Play MP3 from URL
 function playSound(url) {
-  document.getElementById('audio').innerHTML = '<audio rel="noreferrer" src="' + url + '" autoplay></audio>';
+  document.getElementById('audio').innerHTML = '<audio rel="noreferrer" src="' + url + '" autoplay loop="loop"></audio>';
 }
 
 // Enter key press fuction
