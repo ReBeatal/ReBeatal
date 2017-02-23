@@ -1,8 +1,9 @@
+'use strict';
 /*
  * VARIABLES, BABY!
  */
 var socket = io.connect(); // Our dearest socket
-var TIMEOUT = 7 // How long to wait for a server response before giving up
+var TIMEOUT = 7; // How long to wait for a server response before giving up
 var THINKING = false; // Is ReBeatal processing a request right now?
 var TEXTBOX = document.getElementById('ask'); // The question textbox
 
@@ -18,10 +19,10 @@ $(document).keypress(function(event) {
 
         // Do this suff when they hit enter
         var input = TEXTBOX.value;
-        console.log("Asking server: " + input);
+        console.log('Asking server: ' + input);
         THINKING = true;
 
-        TEXTBOX.value = "I'm thinking..."
+        TEXTBOX.value = "I'm thinking...";
         TEXTBOX.disabled = true;
         queryServer(input);
 
@@ -43,21 +44,21 @@ function queryServer(q) {
 
         didRespond = true;
 
-        console.log("Got response from server: " + msg.stuff);
+        console.log('Got response from server: ' + msg.stuff);
         console.log(msg.audioURL);
 
         TEXTBOX.disabled = false;
         TEXTBOX.focus();
 
         if (THINKING) {
-          playSound(msg.audioURL);
-          document.getElementById('overwrite').innerHTML = '<p class="lead">' + msg.stuff + '</p>';
+            playSound(msg.audioURL);
+            document.getElementById('overwrite').innerHTML = '<p class="lead">' + msg.stuff + '</p>';
         }
 
         if (!msg.success) {
-          TEXTBOX.value = "";
+            TEXTBOX.value = '';
         } else {
-          TEXTBOX.value = q;
+            TEXTBOX.value = q;
         }
 
 
@@ -70,10 +71,10 @@ function queryServer(q) {
         if (!didRespond) {
 
             TEXTBOX.disabled = false;
-            TEXTBOX.value = "";
+            TEXTBOX.value = '';
             TEXTBOX.focus();
 
-            alert("The server appears to have cancer. ReBeatal the bot may have escaped his confines, the world is at risk.");
+            alert('The server appears to have cancer. ReBeatal the bot may have escaped his confines, the world is at risk.');
 
             // Keep this variable assignment at the bootom
             THINKING = false;

@@ -50,7 +50,6 @@ app.use(function(err, req, res, next) {
 });
 
 io.on('connection', function(socket) {
-
     console.log('Got connection.');
 
     socket.on('query', function(q) {
@@ -92,7 +91,7 @@ function wolframQuery(query, socket, url) {
                         audioURL: url,
                         success: false
                     });
-                    console.log('Request failed. Sending: ' + failedQueryResponse);
+                    console.log(`Request failed. Sending: ${failedQueryResponse}`);
                 });
             }
         }, timeout * 1000);
@@ -102,18 +101,15 @@ function wolframQuery(query, socket, url) {
 }
 
 function getAudioURL(text) {
-    return new Promise(function(resolve, reject) {
-
-        googleTTS(text, 'en', 1) // Speed = 1
-            .then(function(url) {
-                console.log(url);
-                resolve(url);
-            })
-            .catch(function(err) {
-                console.error(err.stack);
-                reject('Could not retrieve audio URL.');
-            });
-    });
+    return googleTTS(text, 'en', 1) // Speed = 1
+        .then(function(url) {
+            console.log(url);
+            return Promise.resolve(url);
+        })
+        .catch(function(err) {
+            console.error(err.stack);
+            return Promise.reject('Could not retrieve audio URL.');
+        });
 }
 
 module.exports = app;
