@@ -1,21 +1,18 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var index = require('./routes/index');
-var users = require('./routes/users');
-var request = require('request');
-var googleTTS = require('google-tts-api');
+'use strict';
 
-var app = express();
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const request = require('request');
+const googleTTS = require('google-tts-api');
+const socketio = require('socket.io');
 
-var http = require('http').createServer(app);
-var fs = require('fs');
-var socketio = require('socket.io');
-var request = require('request');
-var io = socketio();
+const index = require('./routes/index');
+
+const app = express();
+const io = socketio();
 app.io = io;
 
 // view engine setup
@@ -36,7 +33,7 @@ app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -54,7 +51,7 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function(socket) {
 
-    console.log("Got connection.");
+    console.log('Got connection.');
 
     socket.on('query', function(q) {
         console.log(q);
@@ -63,11 +60,10 @@ io.on('connection', function(socket) {
 });
 
 function wolframQuery(query, socket, url) {
-    var result;
-    var timeout = 4; // How many seconds to wait before sending failure message
-    var completed = false;
-    var failedQueryResponse = "Ignorant human. Next time ask me a question that actually makes sense.";
-    var options = {
+    let completed = false;
+    const timeout = 4; // How many seconds to wait before sending failure message
+    const failedQueryResponse = 'Ignorant human. Next time ask me a question that actually makes sense.';
+    const options = {
         url: 'https://api.wolframalpha.com/v1/result?appid=XVVT6H-237WH8JWQY&i=' + encodeURI(query),
         headers: {}
     };
@@ -115,7 +111,7 @@ function getAudioURL(text) {
             })
             .catch(function(err) {
                 console.error(err.stack);
-                reject("Could not retrieve audio URL.");
+                reject('Could not retrieve audio URL.');
             });
     });
 }
