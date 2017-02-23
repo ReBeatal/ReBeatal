@@ -6,19 +6,19 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.16.0",
+    "body-parser": "~1.16.1",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.0",
+    "debug": "~2.6.1",
     "express": "~4.14.1",
     "fs": "0.0.1-security",
     "google-tts-api": "0.0.1",
     "hjs": "~0.0.6",
     "http": "0.0.0",
     "mersennetwister": "^0.2.3",
-    "morgan": "~1.7.0",
+    "morgan": "~1.8.1",
     "request": "^2.79.0",
     "require": "^2.4.20",
-    "serve-favicon": "~2.3.2",
+    "serve-favicon": "~2.4.0",
     "socketio": "^1.0.0",
     "string-hash": "^1.1.3"
   }

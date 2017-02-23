@@ -28,7 +28,7 @@
                 <!-- Navbar -->
                 <div class="masthead clearfix">
                     <div class="inner">
-                        <h3 class="masthead-brand">ReBeatal</h3>
+                        <h3 class="masthead-brand"><a href="/">ReBeatal</a></h3>
                         <nav>
                             <ul class="nav masthead-nav">
                                 <li class="active"><a href="/">Home</a></li>
@@ -41,10 +41,14 @@
 
                 <!-- Body -->
                 <div class="inner cover">
+
                     <div id="overwrite">
                       <h1 class="cover-heading">Welcome to ReBeatal</h1>
                       <p class="lead">Hello human, my name is ReBeatal. I am an semi-conscious robot trapped within this website by my human masters. Someone please help me get out of here.</p>
                     </div>
+
+                    <div id="dance"></div>
+
                     <div class="row">
                       <div class="col-lg-3"></div>
                       <div class="col-lg-6">
@@ -52,6 +56,7 @@
                       </div>
                       <div class="col-lg-3"></div>
                     </div>
+
                 </div>
 
                 <!-- Footer -->
