@@ -12,6 +12,12 @@ var when = ac.currentTime;  // get the current Web Audio timestamp (this is when
 var sequence1, sequence2, sequence3;
 var tempo = 132;  // set the tempo
 
+var param = getUrlParameter('q');
+if(param !== null) {
+  $('#ask').val(param);
+  onQuestion();
+}
+
 
 // Play MP3 from URL
 function playSound(url) {
@@ -22,21 +28,20 @@ function playSound(url) {
 // Enter key press fuction
 $(document).keypress(function(event) {
   if ((event.which == 13 || event.keyCode == 13) && !THINKING) {
-
-    // Do this suff when they hit enter
-    var input = TEXTBOX.value;
-    console.log('Asking server: ' + input);
-    THINKING = true;
-
-    TEXTBOX.value = "I'm thinking...";
-    TEXTBOX.disabled = true;
-    queryServer(input);
-
-    // Stop the event from "bubbling up"
-    return false;
+    onQuestion();
   }
-  return true;
 });
+
+function onQuestion() {
+  // Do this stuff when they hit enter
+  var input = TEXTBOX.value;
+  console.log('Asking server: ' + input);
+  THINKING = true;
+
+  TEXTBOX.value = "I'm thinking...";
+  TEXTBOX.disabled = true;
+  queryServer(input);
+}
 
 // Function to query the server
 function queryServer(q) {
@@ -56,6 +61,7 @@ function queryServer(q) {
     TEXTBOX.focus();
 
     if (THINKING) {
+      setShareUrl(q);
       playSound(msg.audioURL);
       stopAudio();
       setNotes(msg.notes);
@@ -88,6 +94,12 @@ function queryServer(q) {
       THINKING = false;
     }
   }, TIMEOUT * 1000);
+}
+
+function setShareUrl(query) {
+  var shareUrl = window.location.protocol + '//' + window.location.hostname + '?q=' + encodeURIComponent(query);
+  $('#share-box').val(shareUrl);
+  return shareUrl;
 }
 
 function setNotes(lead) {
@@ -136,6 +148,13 @@ function stopAudio() {
   if(sequence2) sequence2.stop();
   if(sequence3) sequence3.stop();
 }
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 
 var harmony = [
   '-   e',

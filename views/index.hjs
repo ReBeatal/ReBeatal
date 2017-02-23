@@ -56,6 +56,14 @@
                       </div>
                       <div class="col-lg-3"></div>
                     </div>
+                    <div class="row share-div">
+                        <div class="col-sm-2">
+                            <p class="lead">Share: </p>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" id="share-box" class="form-control" readonly>
+                        </div>
+                    </div>
 
                 </div>
 
