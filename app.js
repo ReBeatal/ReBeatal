@@ -78,6 +78,7 @@ function wolframQuery(query, socket, url) {
       completed = true;
       getAudioURL(body).then(function(url) {
         socket.emit('message', {
+          query: query,
           stuff: body,
           audioURL: url,
           success: false,
@@ -92,6 +93,7 @@ function wolframQuery(query, socket, url) {
       if (completed == false) {
         getAudioURL(failedQueryResponse).then(function(url) {
           socket.emit('message', {
+            query: query,
             stuff: failedQueryResponse,
             audioURL: url,
             success: false,

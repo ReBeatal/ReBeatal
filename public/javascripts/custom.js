@@ -43,42 +43,39 @@ function onQuestion() {
   queryServer(input);
 }
 
+socket.on('message', function(msg) {
+  didRespond = true;
+
+  console.log('Got response from server: ' + msg.stuff);
+  console.log(msg.audioURL);
+
+  TEXTBOX.disabled = false;
+  TEXTBOX.focus();
+
+  if (THINKING) {
+    setShareUrl(msg.query);
+    playSound(msg.audioURL);
+    stopAudio();
+    setNotes(msg.notes);
+    playAudio();
+    document.getElementById('overwrite').innerHTML = '<p class="lead">' + msg.stuff + '</p>';
+  }
+
+  if (!msg.success) {
+    TEXTBOX.value = '';
+  } else {
+    TEXTBOX.value = msg.query;
+  }
+  // Keep this variable assignment at the bootom
+  THINKING = false;
+});
+
+var didRespond = false;
 // Function to query the server
 function queryServer(q) {
-
+  didRespond = false;
   // Ask the server
   socket.emit('query', q);
-  var didRespond = false;
-
-  // On repsponse:
-  socket.on('message', function(msg) {
-    didRespond = true;
-
-    console.log('Got response from server: ' + msg.stuff);
-    console.log(msg.audioURL);
-
-    TEXTBOX.disabled = false;
-    TEXTBOX.focus();
-
-    if (THINKING) {
-      setShareUrl(q);
-      playSound(msg.audioURL);
-      stopAudio();
-      setNotes(msg.notes);
-      playAudio();
-      document.getElementById('overwrite').innerHTML = '<p class="lead">' + msg.stuff + '</p>';
-    }
-
-    if (!msg.success) {
-      TEXTBOX.value = '';
-    } else {
-      TEXTBOX.value = q;
-    }
-
-
-    // Keep this variable assignment at the bootom
-    THINKING = false;
-  });
 
   // No response in var=TIMEOUT amount of seconds
   setTimeout(function() {
