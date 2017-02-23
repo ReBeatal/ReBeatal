@@ -59,7 +59,6 @@ io.on('connection', function(socket) {
   socket.on('query', function(q) {
     console.log(q);
     wolframQuery(q, socket);
-    generateNotes(q);
   });
 });
 
@@ -81,7 +80,8 @@ function wolframQuery(query, socket, url) {
         socket.emit('message', {
           stuff: body,
           audioURL: url,
-          success: false
+          success: false,
+          notes: generateNotes(body)
         });
         console.log(body);
       });
@@ -94,7 +94,8 @@ function wolframQuery(query, socket, url) {
           socket.emit('message', {
             stuff: failedQueryResponse,
             audioURL: url,
-            success: false
+            success: false,
+            notes: []
           });
           console.log('Request failed. Sending:', failedQueryResponse);
         });
@@ -106,7 +107,7 @@ function wolframQuery(query, socket, url) {
 }
 
 function getAudioURL(text) {
-  return googleTTS(text, 'en', 1) // Speed = 1
+  return googleTTS(text, 'en', 0.8) // Speed = 1
     .then(function(url) {
       console.log(url);
       return Promise.resolve(url);
@@ -124,8 +125,8 @@ function generateNotes(text) {
   mt.seed(hash);
 
   for(let i = 0; i < text.length; ++i) {
-    let note = noteList[Math.round(mt.random() * noteList.length)];
-    note += ' e';
+    let note = noteList[Math.floor(mt.random() * noteList.length)];
+    note += ' ' + ['e', 's', 'h', 'q'][Math.floor(mt.random() * 4)];
     notes.push(note);
   }
   console.log('Generated notes:', notes);
