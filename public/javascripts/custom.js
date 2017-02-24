@@ -11,6 +11,7 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext() : new webkitAu
 var when = ac.currentTime;  // get the current Web Audio timestamp (this is when playback should begin)
 var sequence1, sequence2, sequence3;
 var tempo = 132;  // set the tempo
+var shareBoxVal = "null";
 
 var param = getUrlParameter('q');
 if(param !== null) {
@@ -23,6 +24,10 @@ if(param !== null) {
 function playSound(url) {
   document.getElementById('audio').innerHTML = '<audio rel="noreferrer" src="' + url + '" autoplay loop="loop"></audio>';
   document.getElementById('dance').innerHTML = '<img src="/images/dance.gif">';
+  document.getElementById('share').innerHTML =
+  '<div class="col-sm-2"><p class="lead">Share: </p>' +
+  '</div><div class="col-sm-8"><input type="text" id="share-box"' +
+  ' class="form-control" value = "' + shareBoxVal + '"readonly></div>';
 }
 
 // Enter key press fuction
@@ -95,7 +100,7 @@ function queryServer(q) {
 
 function setShareUrl(query) {
   var shareUrl = window.location.protocol + '//' + window.location.hostname + '?q=' + encodeURIComponent(query);
-  $('#share-box').val(shareUrl);
+  shareBoxVal = shareUrl;
   return shareUrl;
 }
 
